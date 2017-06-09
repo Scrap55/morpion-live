@@ -6,6 +6,10 @@
         "socket.io": "~1.2.1",
         "ent": "~0.1.0"
     },
+	"scripts": {
+	  "start": "node app.js"
+	},
+	"main": "app.js"
     "author": "H <h@h.com>",
     "description": "Un morpion temps réel avec socket.io"
 }
