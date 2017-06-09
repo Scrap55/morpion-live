@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Morpion temps réel !</title>
+  <style>
+
+  td{
+    border: solid;
+    text-align: center;
+    width: 33%;
+    height: 100px;
+    margin: 0.5%;
+  }
+  tr{
+    display: flex;
+    justify-content: space-around;
+  }
+
+  </style>
+</head>
+
+<body>
+  <h1 style="text-align: center;">Morpion</h1>
+
+  <table style="width: 100%">
+
+    <tr id="c1">
+      <td id="1#1" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="1#2" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="1#3" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+    </tr>
+
+    <tr id="c2">
+      <td id="2#1" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="2#2" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="2#3" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+    </tr>
+
+    <tr id="c3">
+      <td id="3#1" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="3#2" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+      <td id="3#3" onclick="socket.emit('play',this.id)" zoneOfPlayer=""></td>
+    </tr>
+
+  </table>
+
+  <div>
+    <button type="button" onclick=" socket.emit('getPlayerId')">What is my id ?</button>
+    <button type="button" onclick=" socket.emit('getServer_IdJoueur')">How many players ?</button>
+  </div>
+
+  <!--Display the number of players-->
+  <p>Number of players : <span id="nbOfPlayers">0</span></p>
+
+  <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+
+  <script>
+
+  var socket = io.connect('http://localhost:8080');
+
+  var pseudo = prompt('Quel est votre pseudo ?');
+  socket.emit('newConnection', pseudo);
+
+  //For the player
+  socket.on('makeChangesLocal',function(squareId,idJoueur)
+  {
+    console.log("Local est appele");
+    document.getElementById(squareId).style.backgroundColor="blue";
+    document.getElementById(squareId).setAttribute("zoneOfPlayer",idJoueur);
+  });
+
+  //For all players
+  socket.on('makeChangesGlobal',function(squareId,idJoueur)
+  {
+    console.log("Global est appele");
+    document.getElementById(squareId).style.backgroundColor="red";
+    document.getElementById(squareId).setAttribute("zoneOfPlayer",idJoueur);
+  });
+
+  //Function to block the game if the nbOfPlayer < 2
+  socket.on('notEnoughPlayerToPlay',function(){
+    alert("You are the only player, wait for more people please :)");
+  });
+
+  //function to print the number of current players
+  socket.on('updatenbOfPlayers',function(nbOfPlayers){
+    $("#nbOfPlayers").html(nbOfPlayers);
+  });
+
+  socket.on('weHaveOurWinner',function(winnerPseudo){
+  alert(winnerPseudo + 'has won the game !');
+});
+
+  </script>
+
+</body>
+
+</html>
