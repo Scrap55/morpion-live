@@ -4,6 +4,12 @@ io = require('socket.io').listen(server),
 ent = require('ent'), // Encodage des caracteres (anti XSS)
 fs = require('fs');
 
+
+
+io.configure(function(){
+    io.set("transports", ["websocket"]);
+});
+
 //Counter to identify each player
 var idJoueur = 0;
 //Counter to count the number of players
