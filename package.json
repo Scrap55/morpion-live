@@ -9,7 +9,7 @@
 	"scripts": {
 	  "start": "node app.js"
 	},
-	"main": "app.js"
+	"main": "app.js",
     "author": "H <h@h.com>",
     "description": "Un morpion temps réel avec socket.io"
 }
