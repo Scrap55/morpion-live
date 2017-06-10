@@ -5,11 +5,6 @@ ent = require('ent'), // Encodage des caracteres (anti XSS)
 fs = require('fs');
 
 
-
-io.configure(function(){
-    io.set("transports", ["websocket"]);
-});
-
 //Counter to identify each player
 var idJoueur = 0;
 //Counter to count the number of players
@@ -23,10 +18,6 @@ for(var x = 0; x < boardGameSize; x++){
     boardGame[x][y] = [];
   }
 }
-
-
-app.set('port', process.env.OPENSHIFT_NODEJS_PORT || 8000);  
-app.set('ipaddr', process.env.OPENSHIFT_NODEJS_IP || "127.0.0.1");  
 
 // Chargement de la page index.html
 app.get('/', function (req, res) {
@@ -169,7 +160,6 @@ io.sockets.on('connection', function (socket, pseudo) {
 
 
 });
-
 
 
 server.listen(8080);
